@@ -1,5 +1,6 @@
 import router from '../router'
-import HTTP from '../http'
+import axios from 'axios'
+
 
 export default {
     namespaced:true,
@@ -56,7 +57,8 @@ export default {
     },
     actions:{
         register({state, commit}) {
-            return HTTP().post('/auth/register', {
+            const apiUrl = process.env.VUE_APP_URL_API
+            return axios.post(apiUrl + '/auth/register', {
                 email: state.registerEmail,
                 password: state.registerPassword,
                 username: state.registerUserName,
@@ -71,7 +73,8 @@ export default {
             })
         },
         login({state, commit}) {
-            return HTTP().post('/auth/login', {
+            const apiUrl = process.env.VUE_APP_URL_API
+            return axios.post(apiUrl + '/auth/login', {
                 email: state.loginEmail,
                 password: state.loginPassword,
             })

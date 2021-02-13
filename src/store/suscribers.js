@@ -1,5 +1,5 @@
 import router from '../router'
-import HTTP from '../http'
+import axios from 'axios'
 
 export default {
     namespaced:true,
@@ -14,7 +14,8 @@ export default {
     },
     actions:{
         suscribe({state, commit}) {
-            return HTTP().post('/landing/suscribe', {
+            const apiUrl = process.env.VUE_APP_URL_API
+            return axios.post(apiUrl + '/landing/suscribe', {
                 email: state.suscriberEmail,
                 suscribe: state.isSuscribe
                 
