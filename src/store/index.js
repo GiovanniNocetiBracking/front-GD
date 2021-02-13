@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import authentication from './authentication'
 import suscribers from './suscribers'
+import contactUs from './contactUs'
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
     modules:{
         authentication,
         suscribers,
+        contactUs,
     },
     state: {
         baseUrl: '/api'

@@ -361,7 +361,7 @@
                     </label>
                     <input type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name" />
+                      placeholder="Full Name" :value="contactName" @input="setContactName($event.target.value)" />
                   </div>
 
                   <div class="relative w-full mb-3">
@@ -370,7 +370,7 @@
                     </label>
                     <input type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Email" />
+                      placeholder="Email" :value="contactEmail" @input="setContactEmail($event.target.value)" />
                   </div>
                   <div class="relative w-full mb-3 mt-8">
                     <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
@@ -378,7 +378,7 @@
                     </label>
                     <input type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name" />
+                      placeholder="Full Name" :value="contactSubject" @input="setContactSubject($event.target.value)" />
                   </div>
 
                   <div class="relative w-full mb-3">
@@ -387,12 +387,13 @@
                     </label>
                     <textarea rows="4" cols="80"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-                      placeholder="Type a message..." />
+                      placeholder="Type a message..." :value="contactMessage" @input="setContactMessage($event.target.value)"/>
                     </div>
                   <div class="text-center mt-6">
                     <button
                       class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
+                      @click="sentMessage"
                     >
                       Enviar mensaje!
                     </button>
@@ -485,14 +486,29 @@ export default {
   computed:{
     ...mapState('suscribers', [
       'suscriberEmail'
+    ]),
+    ...mapState('contactUs', [
+      'contactName',
+      'contactEmail',
+      'contactSubject',
+      'contactMessage',
     ])
   },
   methods:{
     ...mapMutations('suscribers', [
       'setSuscriberEmail'
     ]),
+    ...mapMutations( 'contactUs', [
+      'setContactName',
+      'setContactEmail',
+      'setContactSubject',
+      'setContactMessage',
+    ]),
     ...mapActions('suscribers', [
       'suscribe'
+    ]),
+    ...mapActions( 'contactUs', [
+      'sentMessage'
     ])
   },
   components: {
