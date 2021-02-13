@@ -4,7 +4,7 @@ module.exports = {
   devServer:{
     proxy:{
       '/api':{
-        target:'http://localhost:3333'
+        target:'https://back-gd.herokuapp.com'
       }
     }
   }
