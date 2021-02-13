@@ -13,7 +13,7 @@ export default new Vuex.Store({
         suscribers,
     },
     state: {
-        baseUrl: '/api'
+        baseUrl:
     },
     mutations:{
 
