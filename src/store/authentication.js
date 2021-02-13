@@ -1,6 +1,5 @@
 import router from '../router'
 import HTTP from '../http'
-import axios from 'axios'
 
 export default {
     namespaced:true,
@@ -57,7 +56,7 @@ export default {
     },
     actions:{
         register({state, commit}) {
-            return axios.post('https://back-gd.herokuapp.com/api/auth/register', {
+            return HTTP().post('/auth/register', {
                 email: state.registerEmail,
                 password: state.registerPassword,
                 username: state.registerUserName,
@@ -72,7 +71,7 @@ export default {
             })
         },
         login({state, commit}) {
-            return axios.post('https://back-gd.herokuapp.com/api/auth/login', {
+            return HTTP().post('/auth/login', {
                 email: state.loginEmail,
                 password: state.loginPassword,
             })
