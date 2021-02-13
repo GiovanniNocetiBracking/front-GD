@@ -74,13 +74,13 @@ export default {
         },
         login({state, commit}) {
             const apiUrl = process.env.VUE_APP_URL_API
-            return axios.post(apiUrl + '/auth/login', {
+            return axios.post(apiUrl + '/api/auth/login', {
                 email: state.loginEmail,
                 password: state.loginPassword,
             })
             .then(({data}) => {
                 commit('setToken', data.token)
-                router.push('/admin/dashboard')
+                router.push('/api/admin/dashboard')
             })
             .catch(() => {
                 commit('setLoginError', 'A ocurrido un error al intentar ingresar al sistema de gestion')

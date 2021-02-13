@@ -15,7 +15,7 @@ export default {
     actions:{
         suscribe({state, commit}) {
             const apiUrl = process.env.VUE_APP_URL_API
-            return axios.post(apiUrl + '/landing/suscribe', {
+            return axios.post(apiUrl + '/api/landing/suscribe', {
                 email: state.suscriberEmail,
                 suscribe: state.isSuscribe
                 
