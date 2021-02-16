@@ -1,5 +1,7 @@
 import router from '../router'
 import axios from 'axios'
+import Vue from 'vue';
+import Vuelidate from 'vuelidate'
 
 export default {
     namespaced:true,
@@ -33,9 +35,19 @@ export default {
                 subject: state.contactSubject,
                 message: state.contactMessage,
             })
-            .then(({data}) => {
-                console.log('enviado')
-            })      
+            .then(() => {               
+                let toast = Vue.toasted.show("Gracias por escribirnos !!", { 
+                    theme: "outline", 
+                    position: "top-center", 
+                    duration : 3000
+                })                
+            })
+            .then(() => {
+                commit('setContactName', null)
+                commit('setContactEmail', null)
+                commit('setContactSubject', null)
+                commit('setContactMessage', null)
+            })                 
             
         }
         

@@ -66,7 +66,6 @@ export default {
             })
             .then(({data}) => {
                 commit('setToken', data.token)
-                router.push('/admin/dashboard')
             })
             .catch(() => {
                 commit('setRegisterError', 'A ocurrido un error al intentar ingresar al sistema de gestion')
@@ -79,8 +78,8 @@ export default {
                 password: state.loginPassword,
             })
             .then(({data}) => {
-                commit('setToken', data.token)
-                router.push('/admin/dashboard')
+                commit('setToken', data.token) 
+                console.log(data.token)                               
             })
             .catch(() => {
                 commit('setLoginError', 'A ocurrido un error al intentar ingresar al sistema de gestion')

@@ -6,8 +6,7 @@
         <div class="absolute top-0 w-full h-full bg-center bg-cover ">
           <div>
             <span>
-            <img id="blackOverlay" class="w-full h-full absolute opacity-25 bg-black" alt="..."
-              :src="image1" />
+              <img id="blackOverlay" class="w-full h-full absolute opacity-25 bg-black" alt="..." :src="image1" />
             </span>
           </div>
         </div>
@@ -18,7 +17,7 @@
                 <h1 class="text-white font-bold text-4xl">
                   Dejanos ayudarte a encontrar la solucion que buscabas.
                 </h1>
-                
+
               </div>
             </div>
           </div>
@@ -361,7 +360,9 @@
                     </label>
                     <input type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name" :value="contactName" @input="setContactName($event.target.value)" />
+                      placeholder="Full Name" :value="contactName" @input="setContactName($event.target.value)"
+                       />
+                    
                   </div>
 
                   <div class="relative w-full mb-3">
@@ -387,7 +388,8 @@
                     </label>
                     <textarea rows="4" cols="80"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-                      placeholder="Type a message..." :value="contactMessage" @input="setContactMessage($event.target.value)"/>
+                      placeholder="Type a message..." :value="contactMessage"
+                      @input="setContactMessage($event.target.value)" />
                     </div>
                   <div class="text-center mt-6">
                     <button
@@ -436,6 +438,7 @@
                       placeholder="Email"
                       :value="suscriberEmail"
                       @input="setSuscriberEmail($event.target.value)"
+                      name="email"
                     />
                   </div>
                   
@@ -454,10 +457,7 @@
             </div>
           </div>
         </div>
-        </section>
-       
-        
-      
+        </section>     
     </main>
     <footer-component />
   </div>
@@ -473,6 +473,10 @@ import {
     mapMutations,
     mapActions
   } from 'vuex';
+  import {required, email, minLength, maxLength} from 'vuelidate/lib/validators';  
+  
+  
+
 
 
 export default {
@@ -511,6 +515,7 @@ export default {
       'sentMessage'
     ])
   },
+         
   components: {
     Navbar,
     FooterComponent,

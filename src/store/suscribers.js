@@ -1,4 +1,5 @@
 import router from '../router'
+import Vue from 'vue';
 import axios from 'axios'
 
 export default {
@@ -14,15 +15,26 @@ export default {
     },
     actions:{
         suscribe({state, commit}) {
-            const apiUrl = process.env.VUE_APP_URL_API
+            try {
+                const apiUrl = process.env.VUE_APP_URL_API
             return axios.post(apiUrl + '/landing/suscribe', {
                 email: state.suscriberEmail,
-                suscribe: state.isSuscribe
-                
+                suscribe: state.isSuscribe                
             })
+            .then(() => {
+                
+                let toast = Vue.toasted.show("Gracias por suscribirte !!", { 
+                    theme: "outline", 
+                    position: "top-center", 
+                    duration : 3000
+                })                    
+             })
             .then(() => {
                 commit('setSuscriberEmail', null)
             })
+            } catch (error) {
+                console.log(error)                
+            }
         },
     }
 }

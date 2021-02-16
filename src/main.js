@@ -3,6 +3,8 @@ import { sync } from 'vuex-router-sync';
 import Vue from "vue";
 import Vuex from 'vuex';
 import Vuelidate from 'vuelidate'
+import VueToast from 'vue-toast-notification';
+import Toasted from 'vue-toasted';
 
 import router from './router'
 import store from './store'
@@ -22,6 +24,8 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuex)
 Vue.use(Vuelidate)
+Vue.use(VueToast)
+Vue.use(Toasted)
 
 sync(store, router);
 
