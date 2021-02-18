@@ -347,87 +347,95 @@
           <div class="flex flex-wrap justify-center lg:-mt-64 -mt-48">
             <div class="w-full lg:w-6/12 px-4">
               <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
-                <div class="flex-auto p-5 lg:p-10">
-                  <h4 class="text-2xl font-semibold">
-                    Contacto
-                  </h4>
-                  <p class="leading-relaxed mt-1 mb-4 text-gray-600">
-                    Si tienes alguna inquietud o sugerencia, rellena este formulario y te responderemos a la brevedad.
-                  </p>
-                  <div class="relative w-full mb-3 mt-8">
-                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
-                      Nombre
-                    </label>
-                    <input type="text"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name"
-                      v-model="formContact.name"
-                      @blur="$v.formContact.name.$touch()" />
-                    <div v-if="$v.formContact.name.$error">
-                      <p class="text-red-500" v-if="!$v.formContact.name.required">El campo
-                        nombre es requerido!</p>
-                    </div>
-                  </div>
-
-                  <div class="relative w-full mb-3">
-                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="email">
-                      Email
-                    </label>
-                    <input type="email"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
-                      v-model="formContact.email"
-                      @blur="$v.formContact.email.$touch()"  />
-                    <div v-if="$v.formContact.email.$error">
-                      <p class="text-red-500" v-if="!$v.formContact.email.required">El campo
-                        email es requerido!</p>
-                      <p class="text-red-500" v-if="!$v.formContact.email.email">El campo
-                        email debe ser valido!</p>
-                    </div>
-                  </div>
-                  <div class="relative w-full mb-3">
-                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
-                      Asunto
-                    </label>
-                    <input type="text"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name"
-                      v-model="formContact.subject"
-                      @blur="$v.formContact.subject.$touch()" />
-                    <div v-if="$v.formContact.subject.$error">
-                      <p class="text-red-500" v-if="!$v.formContact.subject.required">El campo
-                        asunto es requerido!</p>
-                    </div>
-                  </div>
-
-                  <div class="relative w-full mb-3">
-                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="message">
-                      Mensaje
-                    </label>
-                    <textarea rows="4" cols="80"
-                      class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-                      placeholder="Type a message..."
-                      v-model="formContact.message"
-                      @blur="$v.formContact.message.$touch()" />
-                    <div v-if="$v.formContact.message.$error">
-                        <p class="text-red-500" v-if="!$v.formContact.message.required">El campo
-                            mensaje es requerido!</p>
-                        <p class="text-red-500" v-if="!$v.formContact.message.minLength">El campo
-                            mensaje debe contener al menos 4 caracteres!</p>
-                        <p class="text-red-500" v-if="!$v.formContact.message.maxLength">El campo
-                        mensaje debe contener 500 caracteres o menos!</p>
+                
+                  <div class="flex-auto p-5 lg:p-10">
+                    <form action="" @submit.prevent="sentMessage()" method="post" role="form">
+                    <h4 class="-2xl font-semibold">
+                      Contacto
+                    </h4>
+                    <p class="leading-relaxed mt-1 mb-4 text-gray-600">
+                      Si tienes alguna inquietud o sugerencia, rellena este formulario y te responderemos a la brevedad.
+                    </p>
+                    <div class="relative w-full mb-3 mt-8">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
+                        Nombre
+                      </label>
+                      <input type="text"
+                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="Full Name"
+                        v-model="formContact.name"
+                        @blur="$v.formContact.name.$touch()" />
+                      <div v-if="$v.formContact.name.$error">
+                        <p class="text-red-500" v-if="!$v.formContact.name.required">El campo
+                          nombre es requerido!</p>
                       </div>
                     </div>
-                  <div class="text-center mt-6">
-                    <button
-                      class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      @click="sentMessage"
-                    >
-                      Enviar mensaje!
-                    </button>
+
+                    <div class="relative w-full mb-3">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="email">
+                        Email
+                      </label>
+                      <input type="email"
+                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="Email"
+                        v-model="formContact.email"
+                        @blur="$v.formContact.email.$touch()"  />
+                      <div v-if="$v.formContact.email.$error">
+                        <p class="text-red-500" v-if="!$v.formContact.email.required">El campo
+                          email es requerido!</p>
+                        <p class="text-red-500" v-if="!$v.formContact.email.email">El campo
+                          email debe ser valido!</p>
+                      </div>
+                    </div>
+                    <div class="relative w-full mb-3">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
+                        Asunto
+                      </label>
+                      <input type="text"
+                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                        placeholder="Full Name"
+                        v-model="formContact.subject"
+                        @blur="$v.formContact.subject.$touch()" />
+                      <div v-if="$v.formContact.subject.$error">
+                        <p class="text-red-500" v-if="!$v.formContact.subject.required">El campo
+                          asunto es requerido!</p>
+                      </div>
+                    </div>
+
+                    <div class="relative w-full mb-3">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="message">
+                        Mensaje
+                      </label>
+                      <textarea rows="4" cols="80"
+                        class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+                        placeholder="Type a message..."
+                        v-model="formContact.message"
+                        @blur="$v.formContact.message.$touch()" />
+                      <div v-if="$v.formContact.message.$error">
+                          <p class="text-red-500" v-if="!$v.formContact.message.required">El campo
+                              mensaje es requerido!</p>
+                          <p class="text-red-500" v-if="!$v.formContact.message.minLength">El campo
+                              mensaje debe contener al menos 4 caracteres!</p>
+                          <p class="text-red-500" v-if="!$v.formContact.message.maxLength">El campo
+                          mensaje debe contener 500 caracteres o menos!</p>
+                        </div>
+                      </div>
+                    <div class="text-center mt-6">                    
+                      <button 
+                      v-if="$v.formContact.$invalid"
+                      :disabled="true" 
+                      class="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                      >Enviar Mensaje</button>
+                      <button 
+                      v-else
+                      v-on:keyup.enter="submit"
+                      :disabled="false"
+                      class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                      type="submit">Enviar Mensaje</button>
+                    </div>
+                    </form>
                   </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -442,7 +450,7 @@
                 class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300"
               >
                 <div class="flex-auto p-5 lg:p-10">
-                  <form action="api/landing/suscribe" method="post" >
+                  <form action="api/landing/suscribe" @submit.prevent="setSuscriptor()" method="post" >
                     
                   <h4 class="text-2xl font-semibold">
                     ¡Suscribete!
@@ -476,13 +484,17 @@
                   </div>
                   
                   <div class="text-center mt-6">
-                    <button
-                      class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      @click="setSuscriptor"
-                    >
-                      Suscribirse
-                    </button>
+                     <button 
+                      v-if="$v.formSuscriber.$invalid"
+                      :disabled="true" 
+                      class="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                      >Suscribirse</button>
+                      <button 
+                      v-else
+                      v-on:keyup.enter="submit"
+                      :disabled="false"
+                      class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" 
+                      type="submit">suscribirse</button>                    
                   </div>
                   </form>
                 </div>
@@ -534,21 +546,45 @@ export default {
     sentMessage(){      
       const apiUrl = process.env.VUE_APP_URL_API
       axios.post(apiUrl + '/landing/contactUs', this.formContact)       
-      console.log("enviado")            
+      .then((res) => {
+        if(res.data._errorMessages){
+            this.$vToastify.error(res.data._errorMessages[0].message)
+          }else{
+            this.$vToastify.success("¡Muchas gracias por escribirnos!")
+            this.formContact = this.clearFormContact()
+            this.$v.$reset();
+          } 
+      })
+      .catch((error)=>{
+
+      })           
     },
     setSuscriptor(){      
       const apiUrl = process.env.VUE_APP_URL_API
       axios.post(apiUrl + '/landing/suscribe', this.formSuscriber)       
-      console.log("enviado")            
+      .then((res) => {
+          if(res.data._errorMessages){
+            this.$vToastify.error(res.data._errorMessages[0].message);
+          }else{
+            this.$vToastify.success("funciono");
+            this.formSuscriber.email = ""
+            this.$v.$reset();
+          }          
+      })
+      .catch(function (error) {
+         console.log(error.message)
+      });
+                
     },
 
-    toasty(message) {
-      let toast = this.$toasted.show(message, {
-          theme: "bubble",
-          position: "top-center",
-          duration: 5000
-      })
-    },
+    
+    clearFormContact() {
+      return{
+        name:null,
+        email:null,
+        subject:null,
+        message:null}
+      },   
     
   },
   validations: {

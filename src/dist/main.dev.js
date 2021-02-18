@@ -8,9 +8,7 @@ var _vuex = _interopRequireDefault(require("vuex"));
 
 var _vuelidate = _interopRequireDefault(require("vuelidate"));
 
-var _vueToastNotification = _interopRequireDefault(require("vue-toast-notification"));
-
-var _vueToasted = _interopRequireDefault(require("vue-toasted"));
+var _vueToastify = _interopRequireDefault(require("vue-toastify"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -30,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 // mouting point for the whole app
 // app config
 _vue["default"].config.productionTip = false;
-_vue["default"].use(_vuex["default"]), _vue["default"].use(_vuelidate["default"]), _vue["default"].use(_vueToastNotification["default"]), _vue["default"].use(_vueToasted["default"]);
+_vue["default"].use(_vuex["default"]), _vue["default"].use(_vuelidate["default"]), _vue["default"].use(_vueToastify["default"]);
 (0, _vuexRouterSync.sync)(_store["default"], _router["default"]);
 new _vue["default"]({
   router: _router["default"],
