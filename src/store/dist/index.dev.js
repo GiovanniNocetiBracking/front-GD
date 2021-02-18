@@ -13,11 +13,9 @@ var _vueToastNotification = _interopRequireDefault(require("vue-toast-notificati
 
 var _vueToasted = _interopRequireDefault(require("vue-toasted"));
 
+var _vuelidate = _interopRequireDefault(require("vuelidate"));
+
 var _authentication = _interopRequireDefault(require("./authentication"));
-
-var _suscribers = _interopRequireDefault(require("./suscribers"));
-
-var _contactUs = _interopRequireDefault(require("./contactUs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -28,12 +26,12 @@ _vue["default"].use(_vueToastNotification["default"]);
 
 _vue["default"].use(_vueToasted["default"]);
 
+_vue["default"].use(_vuelidate["default"]);
+
 var _default = new _vuex["default"].Store({
   strict: true,
   modules: {
-    authentication: _authentication["default"],
-    suscribers: _suscribers["default"],
-    contactUs: _contactUs["default"]
+    authentication: _authentication["default"]
   },
   state: {
     baseUrl: '/api'

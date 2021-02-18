@@ -360,9 +360,13 @@
                     </label>
                     <input type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name" :value="contactName" @input="setContactName($event.target.value)"
-                       />
-                    
+                      placeholder="Full Name"
+                      v-model="formContact.name"
+                      @blur="$v.formContact.name.$touch()" />
+                    <div v-if="$v.formContact.name.$error">
+                      <p class="text-red-500" v-if="!$v.formContact.name.required">El campo
+                        nombre es requerido!</p>
+                    </div>
                   </div>
 
                   <div class="relative w-full mb-3">
@@ -371,15 +375,29 @@
                     </label>
                     <input type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Email" :value="contactEmail" @input="setContactEmail($event.target.value)" />
+                      placeholder="Email"
+                      v-model="formContact.email"
+                      @blur="$v.formContact.email.$touch()"  />
+                    <div v-if="$v.formContact.email.$error">
+                      <p class="text-red-500" v-if="!$v.formContact.email.required">El campo
+                        email es requerido!</p>
+                      <p class="text-red-500" v-if="!$v.formContact.email.email">El campo
+                        email debe ser valido!</p>
+                    </div>
                   </div>
-                  <div class="relative w-full mb-3 mt-8">
+                  <div class="relative w-full mb-3">
                     <label class="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="full-name">
                       Asunto
                     </label>
                     <input type="text"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                      placeholder="Full Name" :value="contactSubject" @input="setContactSubject($event.target.value)" />
+                      placeholder="Full Name"
+                      v-model="formContact.subject"
+                      @blur="$v.formContact.subject.$touch()" />
+                    <div v-if="$v.formContact.subject.$error">
+                      <p class="text-red-500" v-if="!$v.formContact.subject.required">El campo
+                        asunto es requerido!</p>
+                    </div>
                   </div>
 
                   <div class="relative w-full mb-3">
@@ -388,8 +406,17 @@
                     </label>
                     <textarea rows="4" cols="80"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-                      placeholder="Type a message..." :value="contactMessage"
-                      @input="setContactMessage($event.target.value)" />
+                      placeholder="Type a message..."
+                      v-model="formContact.message"
+                      @blur="$v.formContact.message.$touch()" />
+                    <div v-if="$v.formContact.message.$error">
+                        <p class="text-red-500" v-if="!$v.formContact.message.required">El campo
+                            mensaje es requerido!</p>
+                        <p class="text-red-500" v-if="!$v.formContact.message.minLength">El campo
+                            mensaje debe contener al menos 4 caracteres!</p>
+                        <p class="text-red-500" v-if="!$v.formContact.message.maxLength">El campo
+                        mensaje debe contener 500 caracteres o menos!</p>
+                      </div>
                     </div>
                   <div class="text-center mt-6">
                     <button
@@ -436,17 +463,23 @@
                       type="email"
                       class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                       placeholder="Email"
-                      :value="suscriberEmail"
-                      @input="setSuscriberEmail($event.target.value)"
-                      name="email"
+                      v-model="formSuscriber.email"
+                      @blur="$v.formSuscriber.email.$touch()"
                     />
+                    <div v-if="$v.formSuscriber.email.$error">
+                        <p class="text-red-500" v-if="!$v.formSuscriber.email.required">El campo
+                            email es requerido!</p>
+                        <p class="text-red-500" v-if="!$v.formSuscriber.email.email">El campo
+                            email debe ser valido!</p>
+                    </div>
+                    
                   </div>
                   
                   <div class="text-center mt-6">
                     <button
                       class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      @click="suscribe"
+                      @click="setSuscriptor"
                     >
                       Suscribirse
                     </button>
@@ -465,57 +498,84 @@
 <script>
 import Navbar from "@/components/Navbars/AuthNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
+import axios from 'axios'
 
 import team1 from "@/assets/img/foto.jpeg";
 import image1 from "@/assets/img/image5.jpg";
 import {
-    mapState,
-    mapMutations,
-    mapActions
-  } from 'vuex';
-  import {required, email, minLength, maxLength} from 'vuelidate/lib/validators';  
+  required, 
+  email, 
+  minLength, 
+  maxLength
+} from 'vuelidate/lib/validators'; 
   
-  
-
-
-
 export default {
   data() {
     return {
       team1,
-      image1
-    
+      image1,
+      formSuscriber:{
+        email: null,
+        suscribe: 1
+      },
+      formContact:{
+        name:null,
+        email:null,
+        subject:null,
+        message:null
+      }    
     };
   },
   computed:{
-    ...mapState('suscribers', [
-      'suscriberEmail'
-    ]),
-    ...mapState('contactUs', [
-      'contactName',
-      'contactEmail',
-      'contactSubject',
-      'contactMessage',
-    ])
+    
   },
   methods:{
-    ...mapMutations('suscribers', [
-      'setSuscriberEmail'
-    ]),
-    ...mapMutations( 'contactUs', [
-      'setContactName',
-      'setContactEmail',
-      'setContactSubject',
-      'setContactMessage',
-    ]),
-    ...mapActions('suscribers', [
-      'suscribe'
-    ]),
-    ...mapActions( 'contactUs', [
-      'sentMessage'
-    ])
+
+    sentMessage(){      
+      const apiUrl = process.env.VUE_APP_URL_API
+      axios.post(apiUrl + '/landing/contactUs', this.formContact)       
+      console.log("enviado")            
+    },
+    setSuscriptor(){      
+      const apiUrl = process.env.VUE_APP_URL_API
+      axios.post(apiUrl + '/landing/suscribe', this.formSuscriber)       
+      console.log("enviado")            
+    },
+
+    toasty(message) {
+      let toast = this.$toasted.show(message, {
+          theme: "bubble",
+          position: "top-center",
+          duration: 5000
+      })
+    },
+    
   },
-         
+  validations: {
+    formContact:{
+      name:{
+      required
+    },
+      email:{
+      required,
+      email
+    },
+      subject:{
+      required
+    },
+      message:{
+      required,
+      minLength:minLength(4),
+      maxLength:maxLength(500)
+    },
+    },    
+    formSuscriber:{
+      email:{
+        required,
+        email
+      }
+    },
+  },         
   components: {
     Navbar,
     FooterComponent,

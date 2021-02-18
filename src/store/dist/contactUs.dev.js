@@ -23,6 +23,20 @@ var _default = {
     contactSubject: null,
     contactMessage: null
   },
+  getters: {
+    formName: function formName(state) {
+      return state.contactName;
+    },
+    formEmail: function formEmail(state) {
+      return state.contactEmail;
+    },
+    formSubject: function formSubject(state) {
+      return state.contactSubject;
+    },
+    formMessage: function formMessage(state) {
+      return state.contactMessage;
+    }
+  },
   mutations: {
     setContactName: function setContactName(state, name) {
       state.contactName = name;

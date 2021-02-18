@@ -5,7 +5,7 @@ import Vuex from 'vuex';
 import Vuelidate from 'vuelidate'
 import VueToast from 'vue-toast-notification';
 import Toasted from 'vue-toasted';
-
+import axios from 'axios'
 import router from './router'
 import store from './store'
 
@@ -22,9 +22,9 @@ import App from "@/App.vue";
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuex)
-Vue.use(Vuelidate)
-Vue.use(VueToast)
+Vue.use(Vuex),
+Vue.use(Vuelidate),
+Vue.use(VueToast),
 Vue.use(Toasted)
 
 sync(store, router);
@@ -32,5 +32,6 @@ sync(store, router);
 new Vue({
   router,
   store,
+  axios,
   render: (h) => h(App),
 }).$mount("#app");
