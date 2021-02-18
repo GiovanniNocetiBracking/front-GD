@@ -566,7 +566,7 @@ export default {
           if(res.data._errorMessages){
             this.$vToastify.error(res.data._errorMessages[0].message);
           }else{
-            this.$vToastify.success("funciono");
+            this.$vToastify.success("¡Muchas gracias por suscribirte!");
             this.formSuscriber.email = ""
             this.$v.$reset();
           }          
