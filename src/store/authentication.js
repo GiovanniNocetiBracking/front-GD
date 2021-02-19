@@ -1,6 +1,9 @@
 import router from '../router'
 import axios from 'axios'
+import Vue from 'vue'
+import VueToastify from 'vue-toastify';
 
+Vue.use(VueToastify)
 
 export default {
     namespaced:true,
@@ -50,8 +53,7 @@ export default {
         },
         setStateSuscriber(state, suscriber){
             state.stateSuscriber = suscriber
-            suscriber ? state.stateToSuscribe = 1 : state.stateToSuscribe = 0
-            
+            suscriber ? state.stateToSuscribe = 1 : state.stateToSuscribe = 0            
         },
 
     },
@@ -66,10 +68,30 @@ export default {
             })
             .then(({data}) => {
                 commit('setToken', data.token)
+                if(data.registrado){
+                    Vue.$vToastify.success(data.registrado)
+                }else{
+                    Vue.$vToastify.error(data.error)
+                }
             })
-            .catch(() => {
-                commit('setRegisterError', 'A ocurrido un error al intentar ingresar al sistema de gestion')
-            })
+            .catch(function (error) {
+                if (error.response) {
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
+                  console.log(error.response.data);
+                  console.log(error.response.status);
+                  console.log(error.response.headers);
+                } else if (error.request) {
+                  // The request was made but no response was received
+                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                  // http.ClientRequest in node.js
+                  console.log(error.request);
+                } else {
+                  // Something happened in setting up the request that triggered an Error
+                  console.log('Error', error.message);
+                }
+                console.log(error.config);
+              });
         },
         login({state, commit}) {
             const apiUrl = process.env.VUE_APP_URL_API
@@ -89,7 +111,9 @@ export default {
             commit('setToken', null)
             window.location.href = "/"
         },
-    }
+        
+    },
+    
 
 
 }

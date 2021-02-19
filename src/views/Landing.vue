@@ -547,16 +547,17 @@ export default {
       const apiUrl = process.env.VUE_APP_URL_API
       axios.post(apiUrl + '/landing/contactUs', this.formContact)       
       .then((res) => {
-        if(res.data._errorMessages){
+       if(res.data._errorMessages){
             this.$vToastify.error(res.data._errorMessages[0].message)
-          }else{
+          } 
+          else{
             this.$vToastify.success("¡Muchas gracias por escribirnos!")
             this.formContact = this.clearFormContact()
             this.$v.$reset();
           } 
       })
       .catch((error)=>{
-
+          console.log(error.message)
       })           
     },
     setSuscriptor(){      
@@ -564,12 +565,16 @@ export default {
       axios.post(apiUrl + '/landing/suscribe', this.formSuscriber)       
       .then((res) => {
           if(res.data._errorMessages){
-            this.$vToastify.error(res.data._errorMessages[0].message);
+            this.$vToastify.error(res.data._errorMessages[0].message);            
+          }else if(res.data.suscrito){
+            this.$vToastify.success(res.data.suscrito)
+            this.formSuscriber.email = ""
+            this.$v.$reset();
           }else{
             this.$vToastify.success("¡Muchas gracias por suscribirte!");
             this.formSuscriber.email = ""
             this.$v.$reset();
-          }          
+          }       
       })
       .catch(function (error) {
          console.log(error.message)
