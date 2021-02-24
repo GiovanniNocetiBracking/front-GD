@@ -1,33 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 // layouts
-
 import Admin from "@/layouts/Admin.vue";
 import Auth from "@/layouts/Auth.vue";
-
 // views for Admin layout
-
 import Dashboard from "@/views/admin/Dashboard.vue";
 import Settings from "@/views/admin/Settings.vue";
-
 // views for Auth layout
-
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
-
 // views without layouts
-
 import Landing from "@/views/Landing.vue";
 import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter)
 
-
 export default new VueRouter({
     mode:'history',
-    routes: [
-  
+    routes: [  
         {
           path: "/admin",
           redirect: "/admin/dashboard",
@@ -40,9 +30,7 @@ export default new VueRouter({
             {
               path: "/admin/settings",
               component: Settings,
-            },
-           
-            
+            },           
           ],
         },
         {
@@ -59,8 +47,7 @@ export default new VueRouter({
               component: Register,
             },
           ],
-        },
-        
+        },        
         {
           path: "/profile",
           component: Profile,

@@ -72,32 +72,18 @@
             <router-link
               to="/auth/login"
               class="text-white text-md font-bold leading-relaxed inline-block mr-4 py-v-2 whitespace-no-wrap uppercase"
-              v-if="!isLoggedIn"
+             
             >
               Ingresar
             </router-link>
             <router-link
               to="/auth/register"
               class="text-white text-md font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
-              v-if="!isLoggedIn"
+              
             >
               Registrate
-            </router-link>
-            
-            <button
-              class="text-white hover:text-red-500 text-md font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
-              v-if="isLoggedIn" @click="logOut"
-            >
-              Desconectarse
-            </button>
-          </li> 
-          <router-link 
-              to="/admin/dashboard"
-              class="text-white hover:text-red-500 text-md font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
-              v-if="isLoggedIn"
-            >
-              Gas Detect MS 
-            </router-link>                   
+            </router-link>            
+          </li>                            
         </ul>
       </div>
     </div>
@@ -113,17 +99,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions('authentication', [
-      'logOut',
-    ]),
+    
     setNavbarOpen: function () {
       this.navbarOpen = !this.navbarOpen;
     },
   },
   computed:{
-    ...mapGetters('authentication', [
-      'isLoggedIn',
-    ])
+    
   }
   
 };

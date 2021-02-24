@@ -24,7 +24,7 @@
     "gulp-append-prepend": "1.0.8",
     "tailwindcss": "1.8.10",
     "vue": "2.6.12",
-    "vue-router": "3.4.3",
+    "vue-router": "^3.4.3",
     "vue-toast-notification": "^0.6.1",
     "vue-toasted": "^1.1.28",
     "vue-toastify": "^1.8.0",

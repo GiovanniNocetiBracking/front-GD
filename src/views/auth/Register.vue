@@ -29,26 +29,38 @@
             <div class="text-gray-500 text-center mb-3 font-bold">
               <small>Or sign up with credentials</small>
             </div>
-            <form>
+            <form @submit.prevent="registerClick()" method="post">
               <div class="relative w-full mb-3">
                 <label class="block uppercase text-gray-700 text-xs font-bold mb-2">
                   Name
                 </label>
                 <input type="text"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Name" @input="setRegisterUserName($event.target.value)" :value="registerUserName"
-                   />
-                    
+                  placeholder="Name"
+                  v-model="formRegister.username"
+                  @blur="$v.formRegister.username.$touch()"
+                />   
+                <div v-if="$v.formRegister.username.$error">
+                  <p class="text-red-500" v-if="!$v.formRegister.username.required">El campo
+                    nombre es requerido!</p>
+                </div>                 
               </div>
-              
-
               <div class="relative w-full mb-3">
                 <label class="block uppercase text-gray-700 text-xs font-bold mb-2">
                   Email
                 </label>
                 <input type="email"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Email" :value="registerEmail" @input="setRegisterEmail($event.target.value)" />
+                  placeholder="Email"
+                  v-model="formRegister.email"
+                  @blur="$v.formRegister.email.$touch()"
+                />
+                 <div v-if="$v.formRegister.email.$error">
+                  <p class="text-red-500" v-if="!$v.formRegister.email.required">El campo
+                    email es requerido!</p>
+                  <p class="text-red-500" v-if="!$v.formRegister.email.email">El campo
+                    email debe ser valido!</p>
+                </div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -57,7 +69,14 @@
                 </label>
                 <input type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Password" :value="registerPassword" @input="setRegisterPassword($event.target.value)" />
+                  placeholder="Password" 
+                  v-model="formRegister.password"
+                  @blur="$v.formRegister.password.$touch()"
+                />
+                <div v-if="$v.formRegister.password.$error">
+                  <p class="text-red-500" v-if="!$v.formRegister.password.required">El campo
+                    contraseña es requerido!</p>
+                </div> 
               </div>
               <div>
                 <label class="inline-flex items-center cursor-pointer">
@@ -65,8 +84,7 @@
                     id="customCheckLogin"
                     type="checkbox"
                     class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                    @input="setStateSuscriber(!stateSuscriber)"  
-                    v-model="stateSuscriber"               
+                    v-model="formRegister.suscribe"               
                   />
                   <span class="ml-2 text-sm font-semibold text-gray-700">
                     ¿Quieres suscribirte? No te pierdas ninguna novedad...
@@ -76,9 +94,19 @@
               </div>
               <div class="text-center mt-6">
                 <button
+                  v-if="$v.formRegister.$invalid"
+                  :disabled="true"
+                  class="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  >
+                  Registrarme
+                </button>
+                <button
+                  v-if="!$v.formRegister.$invalid"
+                  :disabled="false"
                   class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button" @click="register">
-                  Create Account
+                  type="submit"
+                  v-on:keyup.enter="submit">
+                  Registrarme
                 </button>
               </div>
             </form>
@@ -89,18 +117,14 @@
   </div>
 </template>
 <script>
+  import axios from "axios"
+  import router from "@/router" 
   import github from "@/assets/img/github.svg";
   import google from "@/assets/img/google.svg";
-  import {
-    mapState,
-    mapMutations,
-    mapActions
-  } from 'vuex';
+ 
   import {
     required,
     email,
-    minLength,
-    maxLength
   } from 'vuelidate/lib/validators';
 
   export default {
@@ -108,37 +132,59 @@
       return {
         github,
         google,
-        stateSuscriber: false,
-                       
-
+        
+        formRegister:{
+          username: null,
+          email: null,
+          password: null,
+          suscribe: false,
+        },
+        token: null,
       };
     },
-    computed: {
-      ...mapState('authentication', [
-        'registerEmail',
-        'registerPassword',
-        'registerUserName',
-
-      ])
+    computed: {     
     },
     methods: {
-      ...mapMutations('authentication', [
-        'setRegisterEmail',
-        'setRegisterPassword',
-        'setRegisterUserName',
-        'setStateSuscriber',
-
-      ]),
-      ...mapActions('authentication', [
-        'register'
-      ]),
-      
-      
+      registerClick(){
+        try {
+          const apiUrl = process.env.VUE_APP_URL_API
+          axios.post(apiUrl + '/auth/register', this.formRegister)
+          .then(({data})=>{
+             if(!data[0]._errorMessages){
+              this.$vToastify.success("Bienvenido a Gas Detect!")
+              this.formRegister = this.clearFormRegister()  
+              this.$v.$reset();          
+              router.push({path:'/admin/dashboard'})           
+            }else{       
+              this.$vToastify.error(data[0]._errorMessages[0].message)              
+            }
+          }) 
+        } catch (e) {
+          console.log(e)
+        }      
+      },
+      clearFormRegister(){
+        return{
+          username: null,
+          email:null,
+          password: null,
+          submit: false
+        }
+      }
     },
     validations: {
-        setRegisterUserName:{
+      formRegister:{
+        username:{
+          required
+        },
+        email:{
+          required,
+          email,
+        },
+        password:{
           required
         }
-      },
+      }
+    },
   };
 </script>

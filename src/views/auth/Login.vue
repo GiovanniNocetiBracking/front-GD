@@ -33,7 +33,7 @@
             <div class="text-gray-500 text-center mb-3 font-bold">
               <small>Or sign in with credentials</small>
             </div>
-            <form>
+            <form  @submit.prevent="loginClick()" method="post" >
               <div class="relative w-full mb-3">
                 <label
                   class="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -41,12 +41,18 @@
                 >
                   Email
                 </label>
-                <input
-                  type="email"
+                <input                  
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Email"
-                  :value="loginEmail" @input="setLoginEmail($event.target.value)"
+                  v-model="formLogin.email"
+                  @blur="$v.formLogin.email.$touch()"
                 />
+                <div v-if="$v.formLogin.email.$error">
+                    <p class="text-red-500" v-if="!$v.formLogin.email.required">El campo
+                        email es requerido!</p>
+                    <p class="text-red-500" v-if="!$v.formLogin.email.email">El campo
+                        email debe ser valido!</p>
+                </div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -54,36 +60,37 @@
                   class="block uppercase text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
-                  Password
+                  Contraseña
                 </label>
                 <input
                   type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Password"
-                  :value="loginPassword" @input="setLoginPassword($event.target.value)"
-                />
+                  v-model="formLogin.password"
+                  @blur="$v.formLogin.password.$touch()"
+                />   
+                 <div v-if="$v.formLogin.password.$error">
+                    <p class="text-red-500" v-if="!$v.formLogin.password.required">El campo
+                        contraseña es requerido!</p>                     
+                </div>             
               </div>
-              <div>
-                <label class="inline-flex items-center cursor-pointer">
-                  <input
-                    id="customCheckLogin"
-                    type="checkbox"
-                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                  />
-                  <span class="ml-2 text-sm font-semibold text-gray-700">
-                    Remember me
-                  </span>
-                </label>
-              </div>
-
+             
               <div class="text-center mt-6">
                 <button
+                  v-if="$v.formLogin.$invalid"
+                  :disabled="true"
+                  class="bg-gray-700 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  >
+                  ingresar
+                </button>
+                <button
+                  v-if="!$v.formLogin.$invalid"
+                  :disabled="false"
                   class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
-                  @click="login"
-                >                  
-                    Ingresar                  
-                </button>                
+                  type="submit"
+                  v-on:keyup.enter="submit" >
+                  ingresar
+                </button>              
               </div>
             </form>
           </div>
@@ -91,12 +98,12 @@
         <div class="flex flex-wrap mt-6 relative">
           <div class="w-1/2">
             <a href="javascript:void(0)" class="text-gray-300">
-              <small>Forgot password?</small>
+              <small>¿Olvidaste tu contraseña?</small>
             </a>
           </div>
           <div class="w-1/2 text-right">
             <router-link to="/auth/register" class="text-gray-300">
-              <small>Create new account</small>
+              <small>Crear una cuenta nueva</small>
             </router-link>
           </div>
         </div>
@@ -105,6 +112,8 @@
   </div>
 </template>
 <script>
+import axios from "axios"
+import router from "@/router" 
 import github from "@/assets/img/github.svg";
 import google from "@/assets/img/google.svg";
 import {
@@ -124,30 +133,58 @@ export default {
     return {
       github,
       google,
+      formLogin:{
+        email:null,
+        password:null,
+      },
+      token:null,
+
       
     }
-  },
-  
-    computed: {
-      ...mapState('authentication', [
-        'loginEmail',
-        'loginPassword',
-
-      ])
+  },  
+    computed: {      
     },
-    methods: {
-      ...mapMutations('authentication', [
-        'setLoginEmail',
-        'setLoginPassword',
-        'setLoginUserName'
 
-      ]),
-      ...mapActions('authentication', [
-        'login'
-      ])
+    methods: {
+      loginClick(){
+        try {
+          const apiUrl = process.env.VUE_APP_URL_API
+          axios.post(apiUrl + '/auth/login', this.formLogin)
+          .then(({data}) => {
+            this.token = data.token  
+            if(this.token != null){
+              this.$vToastify.success("Sesion iniciada!")
+              this.formLogin = this.clearFormLogin()            
+              router.push({path:'/admin/dashboard'})             
+            }else{            
+              if (data._errorMessages) {
+                this.$vToastify.error(data._errorMessages[0].message)
+              } else {
+                this.$vToastify.error("El email o la contraseña, no coinciden")                
+              }
+            }                       
+          })
+        } catch (error) {
+          console.log(error)
+        }     
+      },
+      clearFormLogin(){
+        return {
+          name: null,
+          password: null
+        }
+      }
     },
     validations: {
-        
+        formLogin: {
+          email: {
+            required,
+            email
+          },
+          password: {
+            required
+          }
+        }
       },
-};
+}
 </script>
