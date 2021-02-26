@@ -121,7 +121,11 @@
   import router from "@/router" 
   import github from "@/assets/img/github.svg";
   import google from "@/assets/img/google.svg";
- 
+  import {
+    mapState,
+    mapMutations,
+    mapActions
+  } from 'vuex';
   import {
     required,
     email,
@@ -131,8 +135,7 @@
     data() {
       return {
         github,
-        google,
-        
+        google,        
         formRegister:{
           username: null,
           email: null,
@@ -142,13 +145,15 @@
         token: null,
       };
     },
-    computed: {     
+    computed: {         
     },
     methods: {
+     
+
       registerClick(){
         try {
           const apiUrl = process.env.VUE_APP_URL_API
-          axios.post(apiUrl + '/auth/register', this.formRegister)
+          axios.post(apiUrl + '/auth/register', this.formRegister)          
           .then(({data})=>{
              if(!data[0]._errorMessages){
               this.$vToastify.success("Bienvenido a Gas Detect!")

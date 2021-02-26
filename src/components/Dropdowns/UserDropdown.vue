@@ -15,13 +15,18 @@
       <a href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800">
         Otro link
-      </a>
+      </a>      
       <div class="h-0 my-2 border border-solid border-gray-200" />
-      <a href="javascript:void(0);">
-
-       
-
-      </a>
+      <a href="javascript:void(0);"
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800">
+        Otro link
+      </a>      
+      <button 
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-black rounded text-white"
+        @click="logOut">        
+        <i class="fas fa-sign-out-alt"></i> 
+        cerrar sesion 
+      </button>
     </div>
   </div>
 </template>
@@ -46,6 +51,9 @@
       };
     },
     methods: {
+      ...mapActions([
+        'logOut'
+      ]),
       toggleDropdown: function (event) {
         event.preventDefault();
         if (this.dropdownPopoverShow) {

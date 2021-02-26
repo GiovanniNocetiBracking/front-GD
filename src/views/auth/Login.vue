@@ -137,21 +137,23 @@ export default {
         email:null,
         password:null,
       },
-      token:null,
-
-      
+      token:null,      
     }
   },  
     computed: {      
     },
 
     methods: {
+       ...mapMutations([
+        'setToken'
+      ]),
       loginClick(){
         try {
           const apiUrl = process.env.VUE_APP_URL_API
           axios.post(apiUrl + '/auth/login', this.formLogin)
           .then(({data}) => {
-            this.token = data.token  
+            this.token = data.token 
+            this.$store.commit('setToken', this.token)
             if(this.token != null){
               this.$vToastify.success("Sesion iniciada!")
               this.formLogin = this.clearFormLogin()            

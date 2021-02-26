@@ -30,10 +30,16 @@
 
 <script>
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
+import { mapActions } from 'vuex';
 
 export default {
   components: {
     UserDropdown,
   },
+  methods: {
+    ...mapActions([
+      'logOut'
+    ])
+  }
 };
 </script>

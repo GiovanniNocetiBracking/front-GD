@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import VueToast from 'vue-toast-notification'
 import Toasted from 'vue-toasted'
 import Vuelidate from 'vuelidate'
+import router from '@/router'
 
 Vue.use(Vuex);
 Vue.use(VueToast);
@@ -15,15 +16,25 @@ export default new Vuex.Store({
     modules:{
     },
     state: {
-        baseUrl: '/api'
+        baseUrl: '/api',
+        token: null
+    },
+    getters:{
+        isLoggedIn(state){
+            return !!state.token
+        }
     },
     mutations:{
-
+        setToken(state, token) {
+            state.token = token
+        }
     },
     actions: {
-
-    },
-    /* plugins:[
-        createPersistedState(),
-    ], */
+        logOut({commit}){
+            commit('setToken', null)
+            if(router.location != '/'){
+                router.push('/')
+            }
+        }
+    },    
 });
