@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 // layouts
 import Admin from "@/layouts/Admin.vue";
 import Auth from "@/layouts/Auth.vue";
@@ -11,51 +11,61 @@ import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
 // views without layouts
 import Landing from "@/views/Landing.vue";
+import Chat from "@/views/Chat.vue";
 import Profile from "@/views/Profile.vue";
+import Sensors from "@/views/Sensors.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 export default new VueRouter({
-    mode:'history',
-    routes: [  
+  mode: "history",
+  routes: [
+    {
+      path: "/admin",
+      redirect: "/admin/dashboard",
+      component: Admin,
+      children: [
         {
-          path: "/admin",
-          redirect: "/admin/dashboard",
-          component: Admin,
-          children: [
-            {
-              path: "/admin/dashboard",
-              component: Dashboard,
-            },
-            {
-              path: "/admin/settings",
-              component: Settings,
-            },           
-          ],
+          path: "/admin/dashboard",
+          component: Dashboard,
         },
         {
-          path: "/auth",
-          redirect: "/auth/login",
-          component: Auth,
-          children: [
-            {
-              path: "/auth/login",
-              component: Login,
-            },
-            {
-              path: "/auth/register",
-              component: Register,
-            },
-          ],
-        },        
+          path: "/admin/settings",
+          component: Settings,
+        },
+      ],
+    },
+    {
+      path: "/auth",
+      redirect: "/auth/login",
+      component: Auth,
+      children: [
         {
-          path: "/profile",
-          component: Profile,
+          path: "/auth/login",
+          component: Login,
         },
         {
-          path: "/",
-          component: Landing,
+          path: "/auth/register",
+          component: Register,
         },
-        { path: "*", redirect: "/" },
-      ]
-})
+      ],
+    },
+    {
+      path: "/profile",
+      component: Profile,
+    },
+    {
+      path: "/chat",
+      component: Chat,
+    },
+    {
+      path: "/sensors",
+      component: Sensors,
+    },
+    {
+      path: "/",
+      component: Landing,
+    },
+    { path: "*", redirect: "/" },
+  ],
+});
