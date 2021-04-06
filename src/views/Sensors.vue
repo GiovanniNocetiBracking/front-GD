@@ -1,12 +1,24 @@
 <template>
   <div>
-    <h1>Sensores!!</h1>
+    <div>{{ sensorData.data }}</div>
   </div>
 </template>
-
 <script>
-export default {};
+import db from "../FireConfig";
+export default {
+  name: "app",
+  data() {
+    return {
+      sensorData: {
+        data: null,
+      },
+    };
+  },
+  firebase: {
+    sensorData: db.ref("Sensor1"),
+  },
+  methods: {},
+};
 </script>
-
 <style lang="scss" scoped>
 </style>
