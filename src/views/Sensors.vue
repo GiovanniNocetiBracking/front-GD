@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div>{{ sensorData.data }}</div>
+    <h1>Lectura de los sensores en tiempo real:</h1>
+    <h2>Monoxido de carbono:</h2>
+    <div>{{ sensorData.co }}</div>
+    <h2>Gases deribados del petroleo:</h2>
+    <div>{{ sensorData.lpg }}</div>
+    <h2>Humo:</h2>
+    <div>{{ sensorData.smoke }}</div>
   </div>
 </template>
 <script>
@@ -10,7 +16,9 @@ export default {
   data() {
     return {
       sensorData: {
-        data: null,
+        co: null,
+        lpg: null,
+        smoke: null,
       },
     };
   },

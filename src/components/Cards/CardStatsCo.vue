@@ -9,7 +9,7 @@
             {{ statSubtitle }}
           </h5>
           <span class="font-semibold text-xl text-gray-800">
-            {{ sensorData.lpg }}
+            {{ sensorData.co }}
           </span>
         </div>
         <div class="relative w-auto pl-4 flex-initial">
@@ -27,7 +27,7 @@
 <script>
 import db from "../../FireConfig";
 export default {
-  name: "card-stats",
+  name: "card-stats-co",
   data() {
     return {
       sensorData: {
@@ -43,25 +43,7 @@ export default {
   props: {
     statSubtitle: {
       type: String,
-      default: "Gas Licuado de Petroleo",
-    },
-
-    statArrow: {
-      default: "down",
-      validator: function (value) {
-        // The value must match one of these strings
-        return ["up", "down"].indexOf(value) !== -1;
-      },
-    },
-    statPercent: {
-      type: String,
-      default: "0",
-    },
-    // can be any of the text color utilities
-    // from tailwindcss
-    statPercentColor: {
-      type: String,
-      default: "text-green-500",
+      default: "Monoxido de Carbono",
     },
     statDescripiron: {
       type: String,
@@ -69,7 +51,7 @@ export default {
     },
     statIconName: {
       type: String,
-      default: "fas fa-dumpster-fire",
+      default: "fas fa-skull-crossbones",
     },
     // can be any of the background color utilities
     // from tailwindcss

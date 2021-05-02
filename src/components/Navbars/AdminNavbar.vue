@@ -11,14 +11,12 @@
         class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
         href="javascript:void(0)"
       >
-        Management System
+        Panel de Administracion
       </a>
       <!-- Form -->
       <form
         class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
-      >
-        
-      </form>
+      ></form>
       <!-- User -->
       <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
         <user-dropdown />
@@ -30,16 +28,14 @@
 
 <script>
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   components: {
     UserDropdown,
   },
   methods: {
-    ...mapActions([
-      'logOut'
-    ])
-  }
+    ...mapActions(["logOut"]),
+  },
 };
 </script>
